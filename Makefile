@@ -44,7 +44,7 @@ test-unit: base-image ## Run tests
 		pytest -v tests/unit/
 
 test: ## Run all tests
-	./script/test/default
+	./script/test/default $(TEST)
 
 pre-commit: lint test-unit cli
 

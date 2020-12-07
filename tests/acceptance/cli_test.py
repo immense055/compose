@@ -58,9 +58,10 @@ COMPOSE_COMPATIBILITY_DICT = {
 }
 
 
-def start_process(base_dir, options):
+def start_process(base_dir, options, executable=None):
+    executable = executable or DOCKER_COMPOSE_EXECUTABLE
     proc = subprocess.Popen(
-        [DOCKER_COMPOSE_EXECUTABLE] + options,
+        [executable] + options,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -78,9 +79,9 @@ def wait_on_process(proc, returncode=0, stdin=None):
     return ProcessResult(stdout.decode('utf-8'), stderr.decode('utf-8'))
 
 
-def dispatch(base_dir, options, project_options=None, returncode=0, stdin=None):
+def dispatch(base_dir, options, project_options=None, returncode=0, stdin=None, executable=None):
     project_options = project_options or []
-    proc = start_process(base_dir, project_options + options)
+    proc = start_process(base_dir, project_options + options, executable=executable)
     return wait_on_process(proc, returncode=returncode, stdin=stdin)
 
 
